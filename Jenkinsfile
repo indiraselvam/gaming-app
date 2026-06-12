@@ -5,35 +5,29 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Code Checkout'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Docker Build') {
             steps {
-                echo 'Building Gaming Application'
+                sh 'docker build -t gaming-app .'
             }
         }
 
-        stage('Test') {
+        stage('Run Container') {
             steps {
-                echo 'Running Test Cases'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying Application'
+                sh '''
+                docker rm -f gaming-app || true
+                docker run -d --name gaming-app -p 80:80 gaming-app
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Deployment Successful'
-        }
-        failure {
-            echo 'Deployment Failed'
+            echo 'Application deployed successfully'
         }
     }
 }
