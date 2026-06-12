@@ -11,7 +11,11 @@ pipeline {
 
         stage('Docker Build') {
             steps {
+<<<<<<< HEAD
                 sh 'docker build -t gaming-app .'
+=======
+                echo 'Gaming App Version 2'
+>>>>>>> c5e60234f1ebdedaf3b52147006ebdcfbc4e6248
             }
         }
 
